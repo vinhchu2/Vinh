@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Demo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin: 8px 0;
+            padding: 12px;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        li button {
+            background-color: #e74c3c;
+            border: none;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        li button:hover {
+            background-color: #c0392b;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Danh Sách Họ Tên Nhân Viên</h1>
+        <input type="text" id="them" placeholder="Thêm tên nhân viên">
+        <button onclick="addItem()">Thêm</button>
+        <ul id="ds"></ul> <!-- Danh sách mục -->
+    </div>
+
+    <script>
+        // Lấy danh sách từ Local Storage khi trang được tải
+        function loadList() {
+            const savedList = JSON.parse(localStorage.getItem('nameList')) || [];
+            const todoList = document.getElementById('ds');
+            savedList.forEach(name => {
+                const li = document.createElement('li');
+                li.textContent = name;
+
+                // Thêm nút "Sửa"
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Sửa';
+                editButton.onclick = () => editItem(li);
+
+                // Thêm nút "Xóa"
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Xóa';
+                deleteButton.onclick = () => deleteItem(li);
+
+                li.appendChild(editButton);  // Thêm nút "Sửa"
+                li.appendChild(deleteButton); // Thêm nút "Xóa"
+                todoList.appendChild(li);
+            });
+        }
+
+        // Thêm mục mới và lưu vào Local Storage
+        function addItem() {
+            const input = document.getElementById('them');
+            const value = input.value.trim();
+            if (value) {
+                const li = document.createElement('li');
+                li.textContent = value;
+
+                // Thêm nút "Sửa"
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Sửa';
+                editButton.onclick = () => editItem(li);
+
+                // Thêm nút "Xóa"
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Xóa';
+                deleteButton.onclick = () => deleteItem(li);
+
+                li.appendChild(editButton);  // Thêm nút "Sửa"
+                li.appendChild(deleteButton); // Thêm nút "Xóa"
+                document.getElementById('ds').appendChild(li);
+                input.value = ''; // Clear input
+
+                // Lưu danh sách vào Local Storage
+                saveList();
+            }
+        }
+
+        // Sửa mục khi click vào nút "Sửa"
+        function editItem(li) {
+            const newName = prompt("Sửa tên:", li.firstChild.textContent);
+            if (newName) {
+                li.firstChild.textContent = newName; // Sửa tên mục
+                saveList(); // Lưu lại danh sách sau khi sửa
+            }
+        }
+
+        // Xóa mục khi click vào nút "Xóa"
+        function deleteItem(li) {
+            if (confirm("Bạn có chắc chắn muốn xóa mục này?")) {
+                li.remove(); // Xóa mục khỏi danh sách
+                saveList(); // Lưu lại danh sách sau khi xóa
+            }
+        }
+
+        // Lưu danh sách vào Local Storage
+        function saveList() {
+            const items = document.querySelectorAll('#ds li');
+            const names = [];
+            items.forEach(item => names.push(item.firstChild.textContent)); // Lấy tên từ phần tử <li>
+            localStorage.setItem('nameList', JSON.stringify(names)); // Lưu vào Local Storage
+        }
+
+        // Khi trang được tải, gọi loadList để hiển thị lại danh sách
+        window.onload = loadList;
+    </script>
+</body>
+</html>
