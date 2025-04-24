@@ -11,9 +11,3 @@ audio = MP3(file_path, ID3=ID3)
 print(f"Thời lượng: {audio.info.length:.2f} giây")
 print(f"Tốc độ bit: {audio.info.bitrate} bps")
 print(f"Tần số mẫu: {audio.info.sample_rate} Hz")
-print(f"Kênh: {'Stereo' if audio.info.mode == 1 else 'Mono'}")
-
-# In metadata (nếu có)
-print("\nThông tin metadata:")
-for tag in audio.tags.keys():
-    print(f"{tag}: {audio.tags[tag]}")
