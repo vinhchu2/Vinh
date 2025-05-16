@@ -83,6 +83,3 @@ python -m http.server 8000
 - Nếu không có âm thanh trong file MP4, quá trình sẽ dừng
 - Mặc định nhận diện tiếng Việt (`vi-VN`). Có thể thay đổi nếu cần
 
-## 📄 Giấy phép
-
-Mã nguồn này được phân phối theo [MIT License](https://opensource.org/licenses/MIT)
