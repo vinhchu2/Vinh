@@ -1,2 +1,0 @@
-# Vinh
-Demo
